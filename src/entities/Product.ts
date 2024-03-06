@@ -47,7 +47,17 @@ export class Product {
     productLine: string
 
     @ManyToMany(() => Category, (category) => category.products)
-    @JoinTable()
+    @JoinTable({
+        name: "product_category", // Tên bảng giao nhóm
+        joinColumn: {
+          name: "productID", // Tên cột trong bảng giao nhóm
+          referencedColumnName: "productID", // Tên cột trong bảng products
+        },
+        inverseJoinColumn: {
+          name: "categoryID", // Tên cột trong bảng giao nhóm khác
+          referencedColumnName: "categoryID", // Tên cột trong bảng category
+        },
+      })
     categories: Category[]
 
     @OneToMany(() => ProductColor, productColor => productColor.product)

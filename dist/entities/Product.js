@@ -69,7 +69,17 @@ __decorate([
 ], Product.prototype, "productLine", void 0);
 __decorate([
     (0, typeorm_1.ManyToMany)(() => Category_1.Category, (category) => category.products),
-    (0, typeorm_1.JoinTable)(),
+    (0, typeorm_1.JoinTable)({
+        name: "product_category", // Tên bảng giao nhóm
+        joinColumn: {
+            name: "productID", // Tên cột trong bảng giao nhóm
+            referencedColumnName: "productID", // Tên cột trong bảng products
+        },
+        inverseJoinColumn: {
+            name: "categoryID", // Tên cột trong bảng giao nhóm khác
+            referencedColumnName: "categoryID", // Tên cột trong bảng category
+        },
+    }),
     __metadata("design:type", Array)
 ], Product.prototype, "categories", void 0);
 __decorate([

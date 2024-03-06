@@ -14,24 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_data_source_1 = require("../database/app-data-source");
 const category_queries_1 = __importDefault(require("../constants/category.queries"));
-const messages_1 = require("../constants/messages");
 const getAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const categories = yield app_data_source_1.myDataSource.query(category_queries_1.default.getCategoryList);
-        if (categories && categories.length > 0) {
-            const parsedCategories = categories.map((category) => {
-                return Object.assign(Object.assign({}, category), { Children: category.Children ? JSON.parse(category.Children) : null });
-            });
-            return parsedCategories;
-        }
-        else {
-            return [];
-        }
-    }
-    catch (error) {
-        console.error(messages_1.CATEGORY_MESSAGES.GET_ALL_ERROR, error);
-        throw error;
-    }
+    const categories = yield app_data_source_1.myDataSource.query(category_queries_1.default.getCategoryList);
+    if (!categories || categories.length === 0)
+        return [];
+    const parsedCategories = categories.map((category) => {
+        return Object.assign(Object.assign({}, category), { Children: category.Children ? JSON.parse(category.Children) : null });
+    });
+    return parsedCategories;
 });
 const categoryService = {
     getAll,

@@ -29,11 +29,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
+require("express-async-errors");
 const category_route_1 = __importDefault(require("./routes/category.route"));
 const app_data_source_1 = require("./database/app-data-source");
 const bodyParser = __importStar(require("body-parser"));
 const messages_1 = require("./constants/messages");
 const product_route_1 = __importDefault(require("./routes/product.route"));
+const error_handler_1 = require("./middleware/error.handler");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(bodyParser.json());
@@ -47,6 +49,8 @@ app_data_source_1.myDataSource
 });
 app.use("/api/category", category_route_1.default);
 app.use("/api/products", product_route_1.default);
+app.all("*", error_handler_1.notFoundErrorHandler);
+app.use(error_handler_1.globalErrorHandler);
 app.listen(PORT, () => {
     console.log(messages_1.DATA_SOURCE_MESSAGES.SERVER_RUNNING_PORT, PORT);
 });

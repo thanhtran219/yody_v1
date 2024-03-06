@@ -13,9 +13,11 @@ export const HTTP_MESSAGES = {
 }
 
 export const CATEGORY_MESSAGES = {
-    GET_ALL_ERROR: "Error when getting all Categoríes:"
+    GET_ALL_ERROR: "Error when getting all Categoríes:",
+    NOT_FOUND: "Category not found"
 }
 
 export const PRODUCT_MESSAGES = {
-    GET_ALL_ERROR: "Error when getting all Products:"
+    GET_ALL_ERROR: "Error when getting all Products:",
+    NOT_FOUND: "Product not found"
 }

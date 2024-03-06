@@ -15,20 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllCategories = void 0;
 const category_service_1 = __importDefault(require("../services/category.service"));
 const messages_1 = require("../constants/messages");
-const httpStatus_1 = __importDefault(require("../constants/httpStatus"));
 const getAllCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const results = yield category_service_1.default.getAll();
-        if (results) {
-            res.json({ message: messages_1.HTTP_MESSAGES.SUCCESS, results });
-        }
-        else {
-            res.status(httpStatus_1.default.OK).json({ message: messages_1.HTTP_MESSAGES.NOT_FOUND, results });
-        }
-    }
-    catch (error) {
-        console.error(error);
-        res.status(httpStatus_1.default.INTERNAL_SERVER_ERROR).json({ error: messages_1.HTTP_MESSAGES.INTERNAL_SERVER_ERROR });
-    }
+    const results = yield category_service_1.default.getAll();
+    res.json({ status: messages_1.HTTP_MESSAGES.SUCCESS, results });
 });
 exports.getAllCategories = getAllCategories;

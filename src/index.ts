@@ -1,11 +1,13 @@
 import "reflect-metadata";
 import express from "express";
 import dotevn from "dotenv";
+import "express-async-errors";
 import categoryRouter  from "./routes/category.route";
 import { myDataSource } from "./database/app-data-source";
 import * as bodyParser from "body-parser";
 import { DATA_SOURCE_MESSAGES } from "./constants/messages";
 import productRouter from "./routes/product.route";
+import { globalErrorHandler, notFoundErrorHandler } from "./middleware/error.handler";
 
 dotevn.config();
 
@@ -23,6 +25,10 @@ myDataSource
 
 app.use("/api/category", categoryRouter );
 app.use("/api/products", productRouter );
+
+app.all("*", notFoundErrorHandler);
+
+app.use(globalErrorHandler);
 
 app.listen(PORT, () => {
     console.log(DATA_SOURCE_MESSAGES.SERVER_RUNNING_PORT, PORT);

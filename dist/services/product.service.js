@@ -12,166 +12,72 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const app_data_source_1 = require("../database/app-data-source");
 const Product_1 = require("../entities/Product");
-const messages_1 = require("../constants/messages");
+// Get all Product
 const getAll = (page, itemsPerPage) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const [products, total] = yield app_data_source_1.myDataSource.getRepository(Product_1.Product).findAndCount({
-            select: ["productID", "productName", "productCode", "sellingPrice"],
-            relations: {
-                discount: true,
-                productColors: {
-                    color: true,
-                    images: true,
-                    productDetails: {
-                        size: true
-                    }
-                }
-            },
-            skip: (page - 1) * itemsPerPage,
-            take: itemsPerPage
-        });
-        if (products && products.length > 0) {
-            const totalPages = Math.ceil(total / itemsPerPage);
-            const result = {
-                totalPage: totalPages,
-                currentPage: page,
-                products: products
-            };
-            return result;
-        }
-        else {
-            return null;
-        }
-    }
-    catch (error) {
-        console.error(messages_1.PRODUCT_MESSAGES.GET_ALL_ERROR, error);
-        throw error;
-    }
+    return yield getProducts(page, itemsPerPage, {});
 });
+// Search products by productName or productCode
 const searchProductsByKeyword = (page, itemsPerPage, keyword) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const [products, total] = yield app_data_source_1.myDataSource.getRepository(Product_1.Product).findAndCount({
-            select: ["productID", "productName", "productCode", "sellingPrice"],
-            relations: {
-                discount: true,
-                productColors: {
-                    color: true,
-                    images: true,
-                    productDetails: {
-                        size: true
-                    }
-                }
-            },
-            where: {
-                productName: (0, typeorm_1.Like)(`%${keyword}%`),
-            },
-            skip: (page - 1) * itemsPerPage,
-            take: itemsPerPage
-        });
-        if (products && products.length > 0) {
-            const totalPages = Math.ceil(total / itemsPerPage);
-            const result = {
-                totalPage: totalPages,
-                currentPage: page,
-                products: products
-            };
-            return result;
-        }
-        else {
-            return null;
-        }
-    }
-    catch (error) {
-        console.error(messages_1.PRODUCT_MESSAGES.GET_ALL_ERROR, error);
-        throw error;
-    }
+    const conditions = [
+        { productName: (0, typeorm_1.Like)(`%${keyword}%`) },
+        { productCode: (0, typeorm_1.Like)(`%${keyword}%`) },
+    ];
+    return yield getProducts(page, itemsPerPage, conditions);
 });
+// Get Products by categoryID
 const getProductsByCategoryID = (page, itemsPerPage, categoryID) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const [products, total] = yield app_data_source_1.myDataSource.getRepository(Product_1.Product).findAndCount({
-            select: ["productID", "productName", "productCode", "sellingPrice"],
-            relations: {
-                discount: true,
-                productColors: {
-                    color: true,
-                    images: true,
-                    productDetails: {
-                        size: true
-                    }
-                }
-            },
-            where: {
-                categories: {
-                    categoryID: categoryID,
-                }
-            },
-            skip: (page - 1) * itemsPerPage,
-            take: itemsPerPage
-        });
-        if (products && products.length > 0) {
-            const totalPages = Math.ceil(total / itemsPerPage);
-            const result = {
-                totalPage: totalPages,
-                currentPage: page,
-                products: products
-            };
-            return result;
-        }
-        else {
-            return null;
-        }
-    }
-    catch (error) {
-        console.error(messages_1.PRODUCT_MESSAGES.GET_ALL_ERROR, error);
-        throw error;
-    }
+    const conditions = {
+        categories: {
+            categoryID: categoryID,
+        },
+    };
+    return yield getProducts(page, itemsPerPage, conditions);
 });
+// Get Products by parentCategoryID
 const getProductsByParentCategoryID = (page, itemsPerPage, parentCategoryID) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const [products, total] = yield app_data_source_1.myDataSource.getRepository(Product_1.Product).findAndCount({
-            select: ["productID", "productName", "productCode", "sellingPrice"],
-            relations: {
-                discount: true,
-                productColors: {
-                    color: true,
-                    images: true,
-                    productDetails: {
-                        size: true
-                    }
-                }
+    const conditions = {
+        categories: {
+            parent: {
+                categoryID: parentCategoryID,
             },
-            where: {
-                categories: {
-                    parent: {
-                        categoryID: parentCategoryID
-                    }
-                }
+        },
+    };
+    return yield getProducts(page, itemsPerPage, conditions);
+});
+// Common function get Products
+const getProducts = (page, itemsPerPage, conditions) => __awaiter(void 0, void 0, void 0, function* () {
+    const [products, total] = yield app_data_source_1.myDataSource
+        .getRepository(Product_1.Product)
+        .findAndCount({
+        select: ["productID", "productName", "productCode", "sellingPrice"],
+        relations: {
+            discount: true,
+            productColors: {
+                color: true,
+                images: true,
+                productDetails: {
+                    size: true,
+                },
             },
-            skip: (page - 1) * itemsPerPage,
-            take: itemsPerPage
-        });
-        if (products && products.length > 0) {
-            const totalPages = Math.ceil(total / itemsPerPage);
-            const result = {
-                totalPage: totalPages,
-                currentPage: page,
-                products: products
-            };
-            return result;
-        }
-        else {
-            return null;
-        }
-    }
-    catch (error) {
-        console.error(messages_1.PRODUCT_MESSAGES.GET_ALL_ERROR, error);
-        throw error;
-    }
+        },
+        where: conditions,
+        skip: (page - 1) * itemsPerPage,
+        take: itemsPerPage,
+    });
+    if (!products || products.length === 0)
+        return null;
+    const totalPages = Math.ceil(total / itemsPerPage);
+    const result = {
+        totalPage: totalPages,
+        currentPage: page,
+        products: products,
+    };
+    return result;
 });
 const productService = {
     getAll,
+    searchProductsByKeyword,
     getProductsByCategoryID,
     getProductsByParentCategoryID,
-    searchProductsByKeyword,
 };
 exports.default = productService;

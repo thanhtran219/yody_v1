@@ -12,13 +12,13 @@ const categoryQueries = {
             ParentCategoryID IS NULL AND CategoryName != 'Unisex'
         UNION ALL
         SELECT
-            t.CategoryID,
-            t.CategoryName,
-            t.ParentCategoryID
+            ct.CategoryID,
+            ct.CategoryName,
+            ct.ParentCategoryID
         FROM
-            CATEGORY t
+            CATEGORY ct
         INNER JOIN
-            CategoryCTE r ON t.ParentCategoryID = r.CategoryID
+            CategoryCTE cte ON ct.ParentCategoryID = cte.CategoryID
     )
     SELECT
         c1.CategoryID,
