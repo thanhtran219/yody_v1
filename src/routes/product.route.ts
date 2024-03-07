@@ -80,8 +80,8 @@ productRouter.get("/do-bo-nam", menProductController.getDoBoNam);
 
 // Đồ mặc trong Nam
 productRouter.get("/do-mac-trong-nam", menProductController.getDoMacTrongNam);
-productRouter.get("/do-mac-trong-nam/quan-lot-nam", menProductController.getQuanLotNam);
-productRouter.get("/do-mac-trong-nam/ao-ba-lo-nam", menProductController.getAoBaLoNam);
+productRouter.get("/do-mac-trong-nam/quan-lot", menProductController.getQuanLotNam);
+productRouter.get("/do-mac-trong-nam/ao-ba-lo", menProductController.getAoBaLoNam);
 
 // Đồ thể thao Nam
 productRouter.get("/do-the-thao-nam", menProductController.getDoTheThaoNam);
