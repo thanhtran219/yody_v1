@@ -5,9 +5,8 @@ const http_status_codes_1 = require("http-status-codes");
 const AppError_1 = require("../errors/AppError");
 const globalErrorHandler = (error, req, res, next) => {
     console.log(error.stack);
-    if (!error.statusCode) {
+    if (!error.statusCode)
         error.statusCode = http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR;
-    }
     res.status(error.statusCode).json({
         status: error.statusCode,
         message: error.message || http_status_codes_1.StatusCodes[error.statusCode]

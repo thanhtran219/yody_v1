@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import productService from "../services/product.service";
 import { HTTP_MESSAGES} from "../constants/messages";
 import { ITEMS_PER_PAGE } from "../constants/pagination";
-import CATEGORY_ID from "../constants/category.id";
 import { AppError } from "../errors/AppError";
 import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "../errors/NotFoundError";
@@ -40,46 +39,8 @@ export const searchProductsByKeyword = async (req: Request, res: Response, next:
   res.json({ status: HTTP_MESSAGES.SUCCESS, results });
 };
 
-// Female
-export const getAoNu = async (req: Request, res: Response, next: NextFunction) => {
-  await getProductsByParentCategoryID(req, res, next, CATEGORY_ID.ao_nu);
-};
-
-export const getAoPoloNu = async (req: Request, res: Response, next: NextFunction) => {
-  await getProductsByCategoryID(req, res, next, CATEGORY_ID.ao_polo_nu);
-};
-
-export const getAoThunNu = async (req: Request, res: Response, next: NextFunction) => {
-  await getProductsByCategoryID(req, res, next,CATEGORY_ID.ao_thun_nu);
-};
-
-// Male
-export const getAoNam = async (req: Request, res: Response, next: NextFunction) => {
-  await getProductsByParentCategoryID(req, res, next, CATEGORY_ID.ao_nam);
-};
-
-export const getAoPoloNam = async (req: Request, res: Response, next: NextFunction) => {
-  await getProductsByCategoryID(req, res, next, CATEGORY_ID.ao_polo_nam);
-};
-
-export const getAoThunNam = async (req: Request, res: Response, next: NextFunction) => {
-  await getProductsByCategoryID(req, res, next, CATEGORY_ID.ao_thun_nam);
-};
-
-// Kid
-export const getAoTreEm = async (req: Request, res: Response, next: NextFunction) => {
-  await getProductsByParentCategoryID(req, res, next, CATEGORY_ID.ao_tre_em);
-};
-
-export const getAoPoloTreEm = async (req: Request, res: Response, next: NextFunction) => {
-  await getProductsByCategoryID(req, res, next, CATEGORY_ID.ao_polo_tre_em);
-};
-
-export const getAoThunTreEm = async (req: Request, res: Response, next: NextFunction) => {
-  await getProductsByCategoryID(req, res, next, CATEGORY_ID.ao_thun_tre_em);
-};
-
-const getProductsByCategoryID = async (req: Request, res: Response, next: NextFunction, categoryID: number) => {
+// function get products by categoryID
+export const getProductsByCategoryID = async (req: Request, res: Response, next: NextFunction, categoryID: number) => {
   let page: number = 1;
   if (req.query.page !== undefined) {
     page = Number(req.query.page);
@@ -96,7 +57,8 @@ const getProductsByCategoryID = async (req: Request, res: Response, next: NextFu
   res.json({ status: HTTP_MESSAGES.SUCCESS, results });
 };
 
-const getProductsByParentCategoryID = async (req: Request, res: Response, next: NextFunction , parentCategoryID: number) => {
+// function get products by parentCategoryID
+export const getProductsByParentCategoryID = async (req: Request, res: Response, next: NextFunction , parentCategoryID: number) => {
   let page: number = 1;
   if (req.query.page !== undefined) {
     page = Number(req.query.page);

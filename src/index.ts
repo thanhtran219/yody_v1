@@ -2,10 +2,10 @@ import "reflect-metadata";
 import express from "express";
 import dotevn from "dotenv";
 import "express-async-errors";
-import categoryRouter  from "./routes/category.route";
-import { myDataSource } from "./database/app-data-source";
 import * as bodyParser from "body-parser";
+import { myDataSource } from "./database/app-data-source";
 import { DATA_SOURCE_MESSAGES } from "./constants/messages";
+import categoryRouter  from "./routes/category.route";
 import productRouter from "./routes/product.route";
 import { globalErrorHandler, notFoundErrorHandler } from "./middleware/error.handler";
 

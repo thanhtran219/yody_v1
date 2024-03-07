@@ -5,9 +5,7 @@ import { AppError } from "../errors/AppError";
 export const globalErrorHandler = (error: any, req: Request, res: Response, next: NextFunction) => {
     console.log(error.stack);
     
-    if(!error.statusCode) {
-        error.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
-    }
+    if(!error.statusCode) error.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
     
     res.status(error.statusCode).json({
         status: error.statusCode,
