@@ -9,10 +9,16 @@ const women_product_controller_1 = __importDefault(require("../controllers/women
 const men_product_controller_1 = __importDefault(require("../controllers/men.product.controller"));
 const children_product_controller_1 = __importDefault(require("../controllers/children.product.controller"));
 const productRouter = (0, express_1.Router)();
-// All products
+// Get all products
 productRouter.get("/", product_controller_1.getAllProducts);
 // Searching
 productRouter.get("/search", product_controller_1.searchProductsByKeyword);
+// Get new arrivals
+productRouter.get("/hang-moi-ve", product_controller_1.getNewProducts);
+// Get Yody Polo
+productRouter.get("/ao-polo-yody", product_controller_1.getYodyPolo);
+// Get Yody Sport
+productRouter.get("/do-the-thao", product_controller_1.getYodySport);
 // Áo nữ
 productRouter.get("/ao-nu", women_product_controller_1.default.getAoNu);
 productRouter.get("/ao-nu/ao-polo", women_product_controller_1.default.getAoPoloNu);
@@ -70,8 +76,8 @@ productRouter.get("/quan-nam/quan-short", men_product_controller_1.default.getQu
 productRouter.get("/do-bo-nam", men_product_controller_1.default.getDoBoNam);
 // Đồ mặc trong Nam
 productRouter.get("/do-mac-trong-nam", men_product_controller_1.default.getDoMacTrongNam);
-productRouter.get("/do-mac-trong-nam/quan-lot-nam", men_product_controller_1.default.getQuanLotNam);
-productRouter.get("/do-mac-trong-nam/ao-ba-lo-nam", men_product_controller_1.default.getAoBaLoNam);
+productRouter.get("/do-mac-trong-nam/quan-lot", men_product_controller_1.default.getQuanLotNam);
+productRouter.get("/do-mac-trong-nam/ao-ba-lo", men_product_controller_1.default.getAoBaLoNam);
 // Đồ thể thao Nam
 productRouter.get("/do-the-thao-nam", men_product_controller_1.default.getDoTheThaoNam);
 productRouter.get("/do-the-thao-nam/bo-the-thao", men_product_controller_1.default.getBoTheThaoNam);

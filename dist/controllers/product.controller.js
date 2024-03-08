@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProductsByParentCategoryID = exports.getProductsByCategoryID = exports.searchProductsByKeyword = exports.getAllProducts = void 0;
+exports.getNewProducts = exports.getYodySport = exports.getYodyPolo = exports.getProductsByParentCategoryID = exports.getProductsByCategoryID = exports.searchProductsByKeyword = exports.getAllProducts = void 0;
 const product_service_1 = __importDefault(require("../services/product.service"));
 const messages_1 = require("../constants/messages");
 const pagination_1 = require("../constants/pagination");
@@ -83,3 +83,42 @@ const getProductsByParentCategoryID = (req, res, next, parentCategoryID) => __aw
     res.json({ status: messages_1.HTTP_MESSAGES.SUCCESS, results });
 });
 exports.getProductsByParentCategoryID = getProductsByParentCategoryID;
+const getYodyPolo = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    let page = 1;
+    if (req.query.page !== undefined) {
+        page = Number(req.query.page);
+        if (isNaN(page) || page === 0) {
+            const err = new AppError_1.AppError(messages_1.HTTP_MESSAGES.INVALID_PAGE_PARAMETER, http_status_codes_1.StatusCodes.BAD_REQUEST);
+            return next(err);
+        }
+    }
+    const results = yield product_service_1.default.getYodyPolo(page, pagination_1.ITEMS_PER_PAGE);
+    res.json({ status: messages_1.HTTP_MESSAGES.SUCCESS, results });
+});
+exports.getYodyPolo = getYodyPolo;
+const getYodySport = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    let page = 1;
+    if (req.query.page !== undefined) {
+        page = Number(req.query.page);
+        if (isNaN(page) || page === 0) {
+            const err = new AppError_1.AppError(messages_1.HTTP_MESSAGES.INVALID_PAGE_PARAMETER, http_status_codes_1.StatusCodes.BAD_REQUEST);
+            return next(err);
+        }
+    }
+    const results = yield product_service_1.default.getYodySport(page, pagination_1.ITEMS_PER_PAGE);
+    res.json({ status: messages_1.HTTP_MESSAGES.SUCCESS, results });
+});
+exports.getYodySport = getYodySport;
+const getNewProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    let page = 1;
+    if (req.query.page !== undefined) {
+        page = Number(req.query.page);
+        if (isNaN(page) || page === 0) {
+            const err = new AppError_1.AppError(messages_1.HTTP_MESSAGES.INVALID_PAGE_PARAMETER, http_status_codes_1.StatusCodes.BAD_REQUEST);
+            return next(err);
+        }
+    }
+    const results = yield product_service_1.default.getNewArrivals(page, pagination_1.ITEMS_PER_PAGE);
+    res.json({ status: messages_1.HTTP_MESSAGES.SUCCESS, results });
+});
+exports.getNewProducts = getNewProducts;

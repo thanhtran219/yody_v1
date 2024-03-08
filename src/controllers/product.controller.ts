@@ -74,3 +74,45 @@ export const getProductsByParentCategoryID = async (req: Request, res: Response,
   }
   res.json({ status: HTTP_MESSAGES.SUCCESS, results });
 };
+
+export const getYodyPolo = async (req: Request, res: Response, next: NextFunction) => {
+  let page: number = 1;
+  if (req.query.page !== undefined) {
+    page = Number(req.query.page);
+    if (isNaN(page) || page === 0) {
+     const err = new AppError(HTTP_MESSAGES.INVALID_PAGE_PARAMETER, StatusCodes.BAD_REQUEST);
+     return next(err);
+    }
+  }
+
+  const results = await productService.getYodyPolo(page, ITEMS_PER_PAGE);
+  res.json({ status: HTTP_MESSAGES.SUCCESS, results });
+};
+
+export const getYodySport = async (req: Request, res: Response, next: NextFunction) => {
+  let page: number = 1;
+  if (req.query.page !== undefined) {
+    page = Number(req.query.page);
+    if (isNaN(page) || page === 0) {
+     const err = new AppError(HTTP_MESSAGES.INVALID_PAGE_PARAMETER, StatusCodes.BAD_REQUEST);
+     return next(err);
+    }
+  }
+
+  const results = await productService.getYodySport(page, ITEMS_PER_PAGE);
+  res.json({ status: HTTP_MESSAGES.SUCCESS, results });
+};
+
+export const getNewProducts = async (req: Request, res: Response, next: NextFunction) => {
+  let page: number = 1;
+  if (req.query.page !== undefined) {
+    page = Number(req.query.page);
+    if (isNaN(page) || page === 0) {
+     const err = new AppError(HTTP_MESSAGES.INVALID_PAGE_PARAMETER, StatusCodes.BAD_REQUEST);
+     return next(err);
+    }
+  }
+
+  const results = await productService.getNewArrivals(page, ITEMS_PER_PAGE);
+  res.json({ status: HTTP_MESSAGES.SUCCESS, results });
+};

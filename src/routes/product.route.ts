@@ -1,16 +1,25 @@
 import { Router } from "express";
-import { getAllProducts, searchProductsByKeyword } from "../controllers/product.controller";
+import { getAllProducts, getNewProducts, getYodyPolo, getYodySport, searchProductsByKeyword } from "../controllers/product.controller";
 import womenProductController from "../controllers/women.product.controller";
 import menProductController from "../controllers/men.product.controller";
 import childrenProductController from "../controllers/children.product.controller";
 
 const productRouter = Router();
 
-// All products
+// Get all products
 productRouter.get("/", getAllProducts);
 
 // Searching
 productRouter.get("/search", searchProductsByKeyword);
+
+// Get new arrivals
+productRouter.get("/hang-moi-ve", getNewProducts);
+
+// Get Yody Polo
+productRouter.get("/ao-polo-yody", getYodyPolo);
+
+// Get Yody Sport
+productRouter.get("/do-the-thao", getYodySport);
 
 // Áo nữ
 productRouter.get("/ao-nu", womenProductController.getAoNu);
